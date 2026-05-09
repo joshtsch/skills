@@ -1,0 +1,4 @@
+docs/
+.env
+.knowledge-cache/
+minio-data/

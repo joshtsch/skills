@@ -1,0 +1,6 @@
+[core]
+    remote = knowledge
+
+[remote "knowledge"]
+    url = s3://knowledge-sync
+    endpointurl = http://localhost:9000
