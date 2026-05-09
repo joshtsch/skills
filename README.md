@@ -3,184 +3,142 @@ Public repo for sharing helpful agent skills
 
 <!-- llm-wiki-init:v1:readme:start -->
 
-
 ## LLM Wikis
 
-
-This project uses topic-scoped LLM wikis for focused research and documentation.
-
+This repo uses topic-scoped LLM wikis for focused research and documentation.
 
 | Wiki                 | Topic     | Location                   | Guide                               | Last Updated |
 | -------------------- | --------- | -------------------------- | ----------------------------------- | ------------ |
-| `llm-wiki-llm-wikis` | Llm Wikis | `docs/llm-wiki-llm-wikis/` | `docs/llm-wiki-llm-wikis/AGENTS.md` | 2026-05-04   |
+| `llm-wiki-llm-wikis` | LLM Wikis | `docs/llm-wiki-llm-wikis/` | `docs/llm-wiki-llm-wikis/AGENTS.md` | 2026-05-09   |
 
+<!-- llm-wiki-init:v1:readme:end -->
 
-### How to Use
+### How to use
 
+Use the wiki workflow for source ingestion and knowledge synthesis:
 
-Use these prompts with the agent:
+- Add or import raw sources into `docs/llm-wiki-llm-wikis/raw/`
+- Let the agent build and update pages in `docs/llm-wiki-llm-wikis/wiki/`
+- Use `docs/llm-wiki-llm-wikis/AGENTS.md` for page conventions and workflows
+- Keep the wiki narrow and topic-specific; split into new wikis once coverage grows too broad
 
+Useful agent prompts:
 
-- **Ingest source:** `Ingest docs/llm-wiki-llm-wikis/raw/<filename> into the wiki`
-- **Ask from wiki:** `Answer this question using docs/llm-wiki-llm-wikis/wiki and cite pages`
-- **Lint wiki:** `Lint docs/llm-wiki-llm-wikis/wiki for contradictions, orphans, and stale claims`
+- `Ingest docs/llm-wiki-llm-wikis/raw/<filename> into the wiki`
+- `Answer this question using docs/llm-wiki-llm-wikis/wiki and cite pages`
+- `Lint docs/llm-wiki-llm-wikis/wiki for contradictions, orphans, and stale claims`
 
+### Recommended structure
 
-For detailed contribution workflow, page format, and rules, open each wiki's local guide in the **Guide** column.
-
-
-### Recommendations
-
-
-We recommend installing Obsidian and adding each wiki as a separate vault to navigate wiki documents and backlinks effectively.
-
-
-Keep wikis narrow and well-targeted. Research and field experience suggest LLM wikis are most effective around ~100 source documents per wiki. Split broad topics into additional wikis and lint them often.
+- `docs/<topic>-wiki/raw/` — immutable imported sources
+- `docs/<topic>-wiki/wiki/` — generated wiki content
+- `docs/<topic>-wiki/templates/` — reusable page templates
+- `docs/<topic>-wiki/AGENTS.md` — agent guide and workflow schema
 
 ## Syncing locked sources
 
-Use `knowledge_sync.py` to pull each source from `KNOWLEDGE.lock` into its configured local destination.
-
-Example:
+Use `knowledge_sync.py` to materialize sources from `KNOWLEDGE.lock`:
 
 ```bash
-python3 knowledge_sync.py --lockfile KNOWLEDGE.lock
+python3 scripts/knowledge_sync.py --lockfile KNOWLEDGE.lock
 ```
 
-If a package entry contains a directory destination, the `fileName` field is used to write the fetched source file.
+If a package entry has a directory destination, the `fileName` field determines the output filename.
 
-## Common DVC Commands
+## Common DVC and Make commands
 
-This repo uses DVC for data versioning. Here are common commands:
+This repo uses DVC for imported source tracking. Common commands:
 
-- **Pull data from remote storage:** `dvc pull`
-- **Push data to remote storage:** `dvc push`
-- **Add a file/directory to DVC tracking:** `dvc add <path>`
-- **Commit DVC changes:** `dvc commit`
-- **Check status of DVC files:** `dvc status`
-- **List DVC-tracked files:** `dvc list .`
-- **Reproduce pipeline (if any):** `dvc repro`
+- `make dvc-pull` — pull data from the DVC remote
+- `make dvc-push` — push cached data to the remote
+- `make dvc-status` — check DVC file status
+- `make dvc-list` — list DVC-tracked files
+- `make dvc-add PATH=<path>` — add a local file or directory to DVC
+- `make dvc-import-url URL=<url> DEST=<dest>` — import a remote URL into a DVC-tracked destination
+- `make dvc-commit` — commit DVC changes
+- `make sync-knowledge` — sync lockfile sources via `scripts/knowledge_sync.py`
 
-For convenience, you can use the Makefile targets: `make dvc-pull`, `make dvc-push`, etc. Run `make help` to see all available commands.
+Run `make help` for the full command list.
 
 ## DVC + MinIO
 
-This repo includes a local MinIO server for trying DVC-backed remote storage.
+This repo includes a local MinIO setup for DVC remote storage.
 
-1. Copy the example environment file:
+1. Copy the environment example:
 
 ```bash
 cp .env.example .env
 ```
 
-2. Start MinIO and create the DVC bucket:
+2. Start MinIO and create the bucket:
 
 ```bash
 docker compose up -d
 ```
 
-3. Verify the DVC remote config:
+3. Verify DVC remote config:
 
 ```bash
 cat .dvc/config
 cat .dvc/config.local
 ```
 
-The default setup uses:
+Default values:
 
 - API: `http://localhost:9000`
 - Console: `http://localhost:9001`
 - Bucket: `knowledge-sync`
 
-`docker-compose.yml` provisions the bucket automatically, and `.dvc/config` points DVC at the local S3-compatible endpoint.
+The compose setup provisions the bucket, and `.dvc/config` points to the local S3-compatible endpoint.
 
-### Next step after MinIO is running
+### Typical workflow
 
-Once `docker compose up -d` is running successfully, the normal DVC workflow is:
+1. Import a source from a URL into `docs/llm-wiki-llm-wikis/raw/`
+2. Push the cached object to MinIO
+3. Commit the `.dvc` file and the imported file path
+4. Update tracked sources explicitly when upstream content changes
 
-1. Import a document from a source URL into a local destination.
-2. Push the cached object to MinIO.
-3. Commit the `.dvc` file and the imported document path to git.
-4. Later, update the imported source explicitly when you want newer upstream content.
+### Importing a remote source
 
-### Add a document from a source
-
-This repo already contains an example import at `docs2/llm-wiki.md` tracked by `docs2/llm-wiki.md.dvc`.
-
-To add another source, choose a destination path and run:
+Use the Make wrapper to import a remote URL into a destination path:
 
 ```bash
-dvc import-url \
-  https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw \
-  docs/llm-wiki-llm-wikis/raw/llm-wiki.md
+make dvc-import-url URL=https://example.com/article.md DEST=docs/llm-wiki-llm-wikis/raw/article.md
 ```
 
-That creates:
+That creates the imported file and a corresponding `.dvc` tracking file.
 
-- the materialized file at `docs/llm-wiki-llm-wikis/raw/llm-wiki.md`
-- a DVC tracking file next to it, typically `docs/llm-wiki-llm-wikis/raw/llm-wiki.md.dvc`
+### Restoring materialized files
 
-Push the imported content to the MinIO remote:
-
-```bash
-dvc push
-```
-
-### Normalize raw HTML before ingest
-
-If a source URL yields HTML, convert it to a cleaner Markdown reading view before asking the wiki to ingest it. Prefer `mdream`, which is an HTML-to-Markdown CLI aimed at LLM-friendly output and offers a `minimal` preset for token reduction:
-
-```bash
-cat docs/llm-wiki-llm-wikis/raw/article.html \
-  | npx mdream --preset minimal --origin https://example.com/article \
-  > /tmp/article.normalized.md
-```
-
-Use that temporary Markdown file for reading and summarization, but keep the original imported file in `raw/` unchanged. If `npx` is not available, fall back to:
-
-```bash
-pandoc -f html -t gfm docs/llm-wiki-llm-wikis/raw/article.html -o /tmp/article.normalized.md
-```
-
-`pandoc` is a good general converter, but it usually preserves more page chrome than `mdream`.
-
-### Sync materialized files from DVC
-
-To restore imported files from the local DVC cache or the MinIO remote:
+To restore imported files from the local cache or remote:
 
 ```bash
 dvc pull
 dvc checkout
 ```
 
-Use this after cloning the repo on another machine or after deleting local imported files.
+Use this after cloning the repo or after removing local imported files.
 
-### Update a tracked source
+### Updating a tracked source
 
-When you want to check the upstream source for changes and advance the tracked import:
+To refresh a tracked import and push the update:
 
 ```bash
-dvc update docs/llm-wiki-llm-wikis/raw/llm-wiki.md.dvc
+dvc update docs/llm-wiki-llm-wikis/raw/<file>.md.dvc
 dvc push
 ```
 
-This fetches the current upstream content, updates the `.dvc` file metadata, rewrites the materialized file, and uploads the new cached object to MinIO.
-
 ### Commit the result
 
-After adding or updating a source, commit the changed files:
+After importing or updating a source, commit the changed files:
 
 ```bash
-git add docs/llm-wiki-llm-wikis/raw/llm-wiki.md docs/llm-wiki-llm-wikis/raw/llm-wiki.md.dvc
-git commit -m "Track llm-wiki source with DVC"
+git add docs/llm-wiki-llm-wikis/raw/<file>.md docs/llm-wiki-llm-wikis/raw/<file>.md.dvc
+git commit -m "Track new source with DVC"
 ```
 
-### Current example
+### Example source
 
-The existing example in this repo is:
+The repo also contains an older example import at `docs2/llm-wiki.md` tracked by `docs2/llm-wiki.md.dvc`.
 
-- imported file: `docs2/llm-wiki.md`
-- DVC file: `docs2/llm-wiki.md.dvc`
-- source URL: `https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw`
 
-<!-- llm-wiki-init:v1:readme:end -->
