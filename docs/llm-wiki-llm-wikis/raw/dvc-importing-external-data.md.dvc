@@ -1,0 +1,13 @@
+md5: d7dc7c1ac6de512af2a3045c07f9bc11
+frozen: true
+deps:
+- checksum: '"4c569a177d3bfed68ae1964fd89a01230a2161646dd1d5817fb80d2068d3b47a"'
+  size: 4175
+  hash: md5
+  path: 
+    https://raw.githubusercontent.com/treeverse/dvc.org/main/content/docs/user-guide/data-management/importing-external-data.md
+outs:
+- md5: e51ead301a29406fc83c3e169ddc3971
+  size: 4175
+  hash: md5
+  path: dvc-importing-external-data.md

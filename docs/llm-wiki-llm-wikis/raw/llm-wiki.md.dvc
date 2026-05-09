@@ -1,0 +1,13 @@
+md5: 50f1bc9dc8ed899c4d47440f05c82d33
+frozen: true
+deps:
+- checksum: '"353f6eb6e1aa90854b140cdfcd58266d9d3edd2abc182e22a69a26282f04316d"'
+  size: 11985
+  hash: md5
+  path: 
+    https://gist.githubusercontent.com/karpathy/442a6bf555914893e9891c11519de94f/raw
+outs:
+- md5: 7953122eebc7aca33db25cd86a89a19a
+  size: 11985
+  hash: md5
+  path: llm-wiki.md

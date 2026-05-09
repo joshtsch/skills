@@ -1,0 +1,13 @@
+md5: 74869abe05c1f2d512e9a8bb52fbeb82
+frozen: true
+deps:
+- checksum: '"c875f9ff9a6016ff0dfe76a4675373a6d9e9f502cd21781058a9788b4c5404b0"'
+  size: 16769
+  hash: md5
+  path: 
+    https://raw.githubusercontent.com/treeverse/dvc.org/main/content/docs/command-reference/import-url.md
+outs:
+- md5: 1196de2daf936270b379a1091189b522
+  size: 16769
+  hash: md5
+  path: dvc-import-url.md

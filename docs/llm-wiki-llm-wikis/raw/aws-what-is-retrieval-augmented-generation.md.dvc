@@ -1,0 +1,11 @@
+md5: 30a86e0b17ea11e96577fe6b73fc0867
+frozen: true
+deps:
+- checksum: '22613331198836168529573255583447624629'
+  hash: md5
+  path: https://aws.amazon.com/what-is/retrieval-augmented-generation/
+outs:
+- md5: 19ce15a39c51b6a9e13da098c124c446
+  size: 248789
+  hash: md5
+  path: aws-what-is-retrieval-augmented-generation.md

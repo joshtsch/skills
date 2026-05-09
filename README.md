@@ -49,6 +49,20 @@ python3 knowledge_sync.py --lockfile KNOWLEDGE.lock
 
 If a package entry contains a directory destination, the `fileName` field is used to write the fetched source file.
 
+## Common DVC Commands
+
+This repo uses DVC for data versioning. Here are common commands:
+
+- **Pull data from remote storage:** `dvc pull`
+- **Push data to remote storage:** `dvc push`
+- **Add a file/directory to DVC tracking:** `dvc add <path>`
+- **Commit DVC changes:** `dvc commit`
+- **Check status of DVC files:** `dvc status`
+- **List DVC-tracked files:** `dvc list .`
+- **Reproduce pipeline (if any):** `dvc repro`
+
+For convenience, you can use the Makefile targets: `make dvc-pull`, `make dvc-push`, etc. Run `make help` to see all available commands.
+
 ## DVC + MinIO
 
 This repo includes a local MinIO server for trying DVC-backed remote storage.
@@ -111,6 +125,24 @@ Push the imported content to the MinIO remote:
 ```bash
 dvc push
 ```
+
+### Normalize raw HTML before ingest
+
+If a source URL yields HTML, convert it to a cleaner Markdown reading view before asking the wiki to ingest it. Prefer `mdream`, which is an HTML-to-Markdown CLI aimed at LLM-friendly output and offers a `minimal` preset for token reduction:
+
+```bash
+cat docs/llm-wiki-llm-wikis/raw/article.html \
+  | npx mdream --preset minimal --origin https://example.com/article \
+  > /tmp/article.normalized.md
+```
+
+Use that temporary Markdown file for reading and summarization, but keep the original imported file in `raw/` unchanged. If `npx` is not available, fall back to:
+
+```bash
+pandoc -f html -t gfm docs/llm-wiki-llm-wikis/raw/article.html -o /tmp/article.normalized.md
+```
+
+`pandoc` is a good general converter, but it usually preserves more page chrome than `mdream`.
 
 ### Sync materialized files from DVC
 

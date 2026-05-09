@@ -1,0 +1,13 @@
+md5: 7ff091ef7036d305d321ad31f9640ba9
+frozen: true
+deps:
+- checksum: '"ef729dcb921fd9c4582033b5b5bec0f697b2540d40159978287ad23293c6ca2a"'
+  size: 9989
+  hash: md5
+  path: 
+    https://raw.githubusercontent.com/treeverse/dvc.org/main/content/docs/start/index.md
+outs:
+- md5: cc96105e35c16a9298ab26679d8cd286
+  size: 9989
+  hash: md5
+  path: dvc-get-started.md

@@ -1,0 +1,13 @@
+md5: 2c1fcf7bdb41da4b2338792063a8c4f6
+frozen: true
+deps:
+- checksum: '"2c0a530189d18eee8a95f4567ca91a2ce57683dc27dcfc7de4b692a60d02890b"'
+  size: 4928
+  hash: md5
+  path: 
+    https://raw.githubusercontent.com/treeverse/dvc.org/main/content/docs/user-guide/data-management/remote-storage/index.md
+outs:
+- md5: 752be80f52375f87dd49297c9eb5ee7b
+  size: 4928
+  hash: md5
+  path: dvc-remote-storage.md
