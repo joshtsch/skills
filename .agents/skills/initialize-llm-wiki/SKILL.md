@@ -28,9 +28,13 @@ Activate on:
 LLM wiki = narrow markdown KB:
 
 
-- `raw/` holds immutable source documents
+- `.temp/` holds local, uncommitted source staging
+- `raw/` holds reviewed, durable source documents
 - `wiki/` holds curated, interlinked pages maintained by the agent
 - `AGENTS.md` tells agents how to access and manage the wiki
+
+
+Sensitive inputs may be staged locally while they are being processed, but local staging is not durable protection. Classify every input before it becomes a durable source. A sensitive input must become an encrypted secure record or be removed after processing; it must not enter Git history, wiki pages, generated artifacts, logs, or committed raw sources. Pre-commit scanning is a backstop, not the primary control.
 
 
 Default location: `<BASE_PATH>/llm-wiki-<topic>/`. Empty topic -> `<BASE_PATH>/llm-wiki/`.
@@ -211,6 +215,7 @@ Create if missing. Never overwrite.
 
 ```
 <WIKI_ROOT>/
+├── .temp/
 ├── raw/
 ├── templates/
 └── wiki/
@@ -470,6 +475,5 @@ Next step: add source documents to <WIKI_ROOT>/raw/ and ask me to ingest them.
 
 
 List only items that were actually created or changed.
-
 
 

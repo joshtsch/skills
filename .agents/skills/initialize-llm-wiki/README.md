@@ -33,6 +33,7 @@ Creates and maintains a narrow LLM wiki scaffold. Writes are predictable, idempo
 
 
 - **Configurable base path** — default `docs`, supports custom paths
+- **Controlled source staging** — local `.temp/` staging is separated from durable `raw/` sources
 - **Dry-run first** — preview writes before apply
 - **Opt-in root edits** — `AGENTS.md` and `README.md` only with consent
 - **Slug safety** — collision and reserved-name checks
@@ -121,6 +122,5 @@ Other managed markers:
 
 
 Only managed regions are touched.
-
 
 
