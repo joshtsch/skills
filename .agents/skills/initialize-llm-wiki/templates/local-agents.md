@@ -23,7 +23,8 @@ about `<DISPLAY_TOPIC>` lives here. Consult it before answering questions on thi
 
 | Path                        | Purpose                                            |
 | --------------------------- | -------------------------------------------------- |
-| `<WIKI_ROOT>/raw/`          | Immutable source documents — never modify          |
+| `<WIKI_ROOT>/.temp/`        | Local, uncommitted source staging                 |
+| `<WIKI_ROOT>/raw/`          | Reviewed durable source documents — never modify  |
 | `<WIKI_ROOT>/wiki/`         | Curated, interlinked pages maintained by the agent |
 | `<WIKI_ROOT>/wiki/index.md` | Table of contents for the entire wiki              |
 | `<WIKI_ROOT>/wiki/log.md`   | Append-only record of all operations               |
@@ -33,16 +34,19 @@ about `<DISPLAY_TOPIC>` lives here. Consult it before answering questions on thi
 ### Ingest workflow
 
 
-When the user adds a new source to `<WIKI_ROOT>/raw/` and asks you to ingest it:
+When the user adds a new source to `<WIKI_ROOT>/.temp/` or `<WIKI_ROOT>/raw/` and asks you to ingest it:
 
 
-1. Read the full source document
-2. Discuss key takeaways with the user before writing anything
-3. Create a summary page in `<WIKI_ROOT>/wiki/` named after the source
-4. Create or update concept pages for each major idea or entity
-5. Add wiki-links ([[page-name]]) to connect related pages
-6. Update `<WIKI_ROOT>/wiki/index.md` with new pages and one-line descriptions
-7. Append an entry to `<WIKI_ROOT>/wiki/log.md` with the date, source name, and what changed
+1. Classify the source for sensitivity before durable storage
+2. If sensitive, preserve the original through the harness secure-record workflow
+3. Read the full source document
+4. Discuss key takeaways with the user before writing anything
+5. Create a summary page in `<WIKI_ROOT>/wiki/` named after the source
+6. Create or update concept pages for each major idea or entity
+7. Add wiki-links ([[page-name]]) to connect related pages
+8. Update `<WIKI_ROOT>/wiki/index.md` with new pages and one-line descriptions
+9. Append an entry to `<WIKI_ROOT>/wiki/log.md` with the date, source name, and what changed
+10. Remove or encrypt sensitive staging material after processing
 
 
 A single source may touch many wiki pages. That is normal.
@@ -122,7 +126,9 @@ When the user asks you to lint or audit the wiki:
 ### Rules
 
 
-- **Never** modify anything in `<WIKI_ROOT>/raw/`
+- Treat `<WIKI_ROOT>/raw/` as immutable after durable acceptance
+- Keep local staging uncommitted and excluded from generated artifacts
+- Never commit sensitive source material; pre-commit scanning is only a backstop
 - Always update `index.md` and `log.md` after any changes
 - Keep page names lowercase with hyphens (e.g. `my-concept.md`)
 - Write in clear, plain language
@@ -138,6 +144,5 @@ When the user asks you to lint or audit the wiki:
 - Access wikis as needed, not on every prompt
 - Lint wikis regularly to keep links, claims, and coverage healthy
 <!-- llm-wiki-init:v1:local:end -->
-
 
 

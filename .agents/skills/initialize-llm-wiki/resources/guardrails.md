@@ -34,6 +34,18 @@ If any required control is skipped, stop and explain remediation.
 | Markers absent in existing file        | Append new block at end         |
 
 
+## Source staging and sensitivity
+
+
+- Create `<WIKI_ROOT>/.temp/` for local, uncommitted source staging.
+- Treat staging files as potentially sensitive until classified.
+- Keep staging out of commits and generated artifacts; verify ignore rules before processing.
+- Preserve sensitive originals through the harness secure-record workflow, not committed wiki content or `raw/` files.
+- Remove or encrypt sensitive staging material after processing.
+- Run pre-commit sensitive-content checks as a backstop; they do not replace classification or secure storage.
+- Once a source is accepted into `<WIKI_ROOT>/raw/`, treat it as immutable durable source material.
+
+
 ## Marker contract (versioned)
 
 
@@ -102,7 +114,7 @@ After root `README.md` update, scan for `docs/llm-wiki` refs outside managed mar
 After apply:
 
 
-- Required directories exist (`raw/`, `templates/`, `wiki/`)
+- Required directories exist (`.temp/`, `raw/`, `templates/`, `wiki/`)
 - Required files exist (`wiki/index.md`, `wiki/log.md`, local `AGENTS.md`)
 - Managed marker start/end pairs are balanced in all touched files
 - If root writes enabled, root readme contains row for current wiki
@@ -132,6 +144,5 @@ Always emit one structured record for every invocation, including dry-run and no
 - result
 - files[] statuses
 - warnings[]
-
 
 
