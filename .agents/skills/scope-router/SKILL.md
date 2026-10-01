@@ -8,6 +8,25 @@ disable-model-invocation: true
 
 Decide where the work belongs before choosing a build flow.
 
+## Repository-scope gate
+
+Run this gate before opening an issue, creating a branch, or creating a
+worktree:
+
+1. Inventory every repository the session may modify, including the harness,
+   child projects, skill-source repositories, and plugin/package repositories.
+2. Classify each repository as an existing project, new project, harness
+   change, external dependency/skill source, or temporary checkout.
+3. Register every durable project in the harness public or local project
+   configuration before creating tracker work or worktrees. Use the
+   harness-managed clone/worktree for later edits.
+4. Record the repository and project classification in the handoff or work
+   notes, then continue to issue and branch selection.
+
+Do not treat a repository as a one-off dependency when the session edits it or
+expects to reuse it. Keep third-party sources and temporary checkouts outside
+the durable project inventory.
+
 ## Inspect
 
 Read the local `AGENTS.md` and `CONTEXT.md` first. Then inspect the project inventory, wiki inventory, relevant decision records, available skills, and skill lock/source metadata. Use lockfiles to distinguish locally authored skills, installed dependencies, and external skills before recommending a direct edit or wrapper. Treat these files as evidence about ownership and constraints, not as permission to mutate anything.
