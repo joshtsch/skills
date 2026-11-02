@@ -1,11 +1,8 @@
 # Wiki Index
 
-
 <!-- llm-wiki-template-version:1 -->
 
-
 **Summary**: Top-level catalog of wiki pages with one-line descriptions.
-
 
 **Sources**:
 
@@ -16,15 +13,11 @@
 - `docs/llm-wiki-llm-wikis/raw/dvc-remote-storage.md`
 - `docs/llm-wiki-llm-wikis/raw/dvc-get-started.md`
 
-
 **Last updated**: 2026-05-09
-
 
 ---
 
-
 ## Pages
-
 
 - [[llm-wiki]] — Summary and roadmap for the `llm-wiki` pattern.
 - [[incremental-knowledge-base]] — How a persistent wiki differs from raw retrieval.
@@ -39,6 +32,5 @@
 - [[dvc-docs-sources]] — Summary of the DVC docs pages imported into this wiki.
 
 ## Related pages
-
 
 - [[log]]
