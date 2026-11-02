@@ -1,0 +1,20 @@
+name: Add issues to shared portfolio project
+
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - transferred
+
+permissions: {}
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add issue to project
+        uses: actions/add-to-project@5afcf98fcd03f1c2f92c3c83f58ae24323cc57fd
+        with:
+          project-url: ${{ secrets.PORTFOLIO_PROJECT_URL }}
+          github-token: ${{ secrets.PORTFOLIO_PROJECT_TOKEN }}

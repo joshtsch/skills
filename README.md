@@ -142,3 +142,11 @@ git commit -m "Track new source with DVC"
 The repo also contains an older example import at `docs2/llm-wiki.md` tracked by `docs2/llm-wiki.md.dvc`.
 
 
+
+## Portfolio issue automation
+
+The `Add issues to shared portfolio project` workflow adds issues to the private portfolio project when issues are opened, reopened, or transferred into this repository. Configure repository secrets `PORTFOLIO_PROJECT_URL` and `PORTFOLIO_PROJECT_TOKEN` before enabling it. The token needs access to add project items and read source issues. Do not put either secret value in repository files.
+
+## Harness setup
+
+`scripts/setup.sh` supports the harness `bootstrap` and `worktree` phases. It validates the phase and required harness metadata, then reports the project and phase without installing dependencies or changing project state.
