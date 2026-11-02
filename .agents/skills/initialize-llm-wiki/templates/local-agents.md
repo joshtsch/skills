@@ -1,41 +1,31 @@
 # LLM Wiki — Agent Guide
 
-
 <!-- llm-wiki-init:v1:local:start -->
 <!-- llm-wiki-template-version:1 -->
 
-
 ## Wiki: <DISPLAY_TOPIC>
-
 
 **Root:** `<WIKI_ROOT>/`
 
-
 ### Purpose
-
 
 This is a narrow, topic-focused knowledge base. All research, synthesis, and documentation
 about `<DISPLAY_TOPIC>` lives here. Consult it before answering questions on this topic.
 
-
 ### Folder structure
-
 
 | Path                        | Purpose                                            |
 | --------------------------- | -------------------------------------------------- |
-| `<WIKI_ROOT>/.temp/`        | Local, uncommitted source staging                 |
-| `<WIKI_ROOT>/raw/`          | Reviewed durable source documents — never modify  |
+| `<WIKI_ROOT>/.temp/`        | Local, uncommitted source staging                  |
+| `<WIKI_ROOT>/raw/`          | Reviewed durable source documents — never modify   |
 | `<WIKI_ROOT>/wiki/`         | Curated, interlinked pages maintained by the agent |
 | `<WIKI_ROOT>/wiki/index.md` | Table of contents for the entire wiki              |
 | `<WIKI_ROOT>/wiki/log.md`   | Append-only record of all operations               |
 | `<WIKI_ROOT>/templates/`    | Reusable page templates                            |
 
-
 ### Ingest workflow
 
-
 When the user adds a new source to `<WIKI_ROOT>/.temp/` or `<WIKI_ROOT>/raw/` and asks you to ingest it:
-
 
 1. Classify the source for sensitivity before durable storage
 2. If sensitive, preserve the original through the harness secure-record workflow
@@ -48,56 +38,40 @@ When the user adds a new source to `<WIKI_ROOT>/.temp/` or `<WIKI_ROOT>/raw/` an
 9. Append an entry to `<WIKI_ROOT>/wiki/log.md` with the date, source name, and what changed
 10. Remove or encrypt sensitive staging material after processing
 
-
 A single source may touch many wiki pages. That is normal.
-
 
 ### Page format
 
-
 Every wiki page must follow this structure:
-
 
 ```markdown
 # Page Title
 
-
 **Summary**: One to two sentences describing this page.
-
 
 **Sources**: List of raw source files this page draws from.
 
-
 **Last updated**: YYYY-MM-DD
 
-
 ---
-
 
 Main content. Use clear headings and short paragraphs.
 Link related concepts using [[wiki-links]] throughout.
 
-
 ## Related pages
-
 
 - [[related-concept]]
 ```
 
-
 ### Citation rules
-
 
 - Every factual claim must reference its source file: `(source: filename)`
 - If two sources disagree, note the contradiction explicitly
 - If a claim has no source, mark it `(source: unverified)`
 
-
 ### Question answering
 
-
 When the user asks a question about `<DISPLAY_TOPIC>`:
-
 
 1. Read `<WIKI_ROOT>/wiki/index.md` first to find relevant pages
 2. Read those pages and synthesize an answer
@@ -105,12 +79,9 @@ When the user asks a question about `<DISPLAY_TOPIC>`:
 4. If the answer is not in the wiki, say so clearly
 5. If the answer is valuable, offer to save it as a new wiki page
 
-
 ### Lint
 
-
 When the user asks you to lint or audit the wiki:
-
 
 - Check for contradictions between pages
 - Find orphan pages (no inbound links)
@@ -122,9 +93,7 @@ When the user asks you to lint or audit the wiki:
 - If wiki scope is too broad or source count is well beyond roughly 100 documents, recommend splitting it into narrower topic wikis
 - Report findings as a numbered list with suggested fixes
 
-
 ### Rules
-
 
 - Treat `<WIKI_ROOT>/raw/` as immutable after durable acceptance
 - Keep local staging uncommitted and excluded from generated artifacts
@@ -134,9 +103,7 @@ When the user asks you to lint or audit the wiki:
 - Write in clear, plain language
 - When uncertain about categorization, ask the user
 
-
 ### Wiki scope guidance
-
 
 - Keep each wiki narrowly scoped and topic-focused
 - Target roughly 100 source documents per wiki for best retrieval quality
@@ -144,5 +111,3 @@ When the user asks you to lint or audit the wiki:
 - Access wikis as needed, not on every prompt
 - Lint wikis regularly to keep links, claims, and coverage healthy
 <!-- llm-wiki-init:v1:local:end -->
-
-

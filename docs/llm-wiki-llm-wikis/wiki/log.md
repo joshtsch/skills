@@ -1,31 +1,22 @@
 # Wiki Log
 
-
 <!-- llm-wiki-template-version:1 -->
 
-
 **Summary**: Append-only operational timeline of ingest, query, and maintenance actions.
-
 
 **Sources**:
 
 - `docs/llm-wiki-llm-wikis/raw/llm-wiki.md`
 
-
 **Last updated**: 2026-05-09
-
 
 ---
 
-
 ## [2026-05-04] init | wiki initialized
-
 
 Wiki scaffold created at `docs/llm-wiki-llm-wikis/`.
 
-
 ## [2026-05-04] run-audit | apply
-
 
 ```yaml
 mode: apply
@@ -123,8 +114,6 @@ files:
 warnings: []
 ```
 
-
 ## Related pages
-
 
 - [[index]]

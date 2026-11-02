@@ -1,4 +1,5 @@
 # skills
+
 Public repo for sharing helpful agent skills
 
 <!-- llm-wiki-init:v1:readme:start -->
@@ -141,11 +142,20 @@ git commit -m "Track new source with DVC"
 
 The repo also contains an older example import at `docs2/llm-wiki.md` tracked by `docs2/llm-wiki.md.dvc`.
 
-
-
 ## Portfolio issue automation
 
 The `Add issues to shared portfolio project` workflow adds issues to the private portfolio project when issues are opened, reopened, or transferred into this repository. Configure repository secrets `PORTFOLIO_PROJECT_URL` and `PORTFOLIO_PROJECT_TOKEN` before enabling it. The token needs access to add project items and read source issues. Do not put either secret value in repository files.
+
+## Markdown checks
+
+Lint and format checks run in the `Markdown quality` workflow and in harness sessions:
+
+```sh
+npx --yes markdownlint-cli2@0.18.1 "**/*.md"
+npx --yes prettier@3.6.2 . --check
+```
+
+`.markdownlint-cli2.jsonc` explains the disabled style rules. Run `npx --yes prettier@3.6.2 . --write` to apply formatting.
 
 ## Harness setup
 

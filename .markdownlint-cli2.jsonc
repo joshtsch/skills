@@ -1,0 +1,19 @@
+{
+  // Skills and templates are Markdown fragments with placeholders, so these
+  // style rules are off; structural rules stay on. Prettier owns formatting.
+  "config": {
+    "default": true,
+    // Prose keeps its existing line breaks (Prettier proseWrap: preserve).
+    "MD013": false,
+    // Numbered steps are interrupted by code blocks and keep their numbers.
+    "MD029": false,
+    // Templates use <PLACEHOLDER> tokens that parse as inline HTML.
+    "MD033": false,
+    // Bold example labels are not section headings.
+    "MD036": false,
+    // Untyped fences hold prompts and paths, not code in a single language.
+    "MD040": false,
+    // Fragments inserted into other files start below the top-level heading.
+    "MD041": false,
+  },
+}
