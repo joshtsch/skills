@@ -5,7 +5,7 @@ description: Read-only audit of a frontend codebase against its own design syste
 
 # UI Consistency Audit
 
-Compare what the code does with what the design system says. Change nothing: the output is a report and, if asked, draft tracker issues.
+Compare what the code does with what the design system says. Change nothing in the audited repository: the output is a report and, if asked, draft tracker issues.
 
 ## 1. Find the source of truth
 
@@ -22,28 +22,28 @@ If there is no design doc or token file, say so, and audit consistency between s
 
 ## 2. Mechanical sweeps
 
-Run these over source files, leaving out stories, tests and generated code. Count each value and note where it lives (shared primitives or app code). Use `rg` with globs: paths with `[id]` segments break `xargs` and plain `grep`.
+Run these over source files, leaving out stories, tests and generated code. Count each value and note where it lives (shared primitives or app code). Use `rg` with `--glob`, and quote paths: unquoted `[id]` segments are read as shell glob patterns.
 
-| Sweep                  | What to look for                                                                                                                     |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Colour                 | hex, `rgb()` and `oklch()` literals; framework palette classes (`bg-blue-500`); legacy or duplicate semantic tokens                  |
-| Opacity and tints      | `token/NN` modifiers and `color-mix` percentages. Repeated steps are missing semantic tokens (notice background, focus ring, scrim). |
-| Arbitrary values       | `-[...]` classes or inline `style`, grouped by property: widths, grid templates, radii, shadows                                      |
-| Type                   | sizes and weights outside the documented scale, and section-heading class combinations                                               |
-| Spacing                | the spread of padding and gap values, and whether the doc's spacing tokens exist in code                                             |
-| Radius, shadow, motion | radii outside the scale, any shadows (especially inset stripes), durations and easings                                               |
-| Copied constants       | class strings redefined in several files (`const micro = …`, link styles), and long class strings pasted 2+ times                    |
-| Formatters             | money, date and number helpers. Compare their units (cents or dollars), minus sign, sign at zero and naming collisions.              |
-| Primitives             | variants and sizes the doc forbids, double skins (old theme plus overrides), and missing exports                                     |
-| Stories                | shared components that no story imports                                                                                              |
+| Sweep                  | What to look for                                                                                                                                            |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Colour                 | hex, `rgb()` and `oklch()` literals; framework palette classes (`bg-blue-500`); legacy or duplicate semantic tokens                                         |
+| Opacity and tints      | `token/NN` modifiers and `color-mix` percentages. Repeated steps are missing semantic tokens (notice background, focus ring, scrim).                        |
+| Arbitrary values       | `-[...]` classes or inline `style`, grouped by property: widths, grid templates, radii, shadows                                                             |
+| Type                   | sizes and weights outside the documented scale, and section-heading class combinations                                                                      |
+| Spacing                | the spread of padding and gap values, and whether the doc's spacing tokens exist in code                                                                    |
+| Radius, shadow, motion | radii outside the scale, any shadows (especially inset stripes), durations and easings                                                                      |
+| Copied constants       | class strings redefined in several files (`const micro = …`, link styles), and long class strings pasted 2+ times                                           |
+| Formatters             | money, date and number helpers. Compare their units (for money: minor units or whole), sign handling (minus character, sign at zero) and naming collisions. |
+| Primitives             | variants and sizes the doc forbids, double skins (old theme plus overrides), and missing exports                                                            |
+| Stories                | shared components that no story imports                                                                                                                     |
 
 ## 3. Pattern survey by purpose
 
 List the jobs the UI does more than once, then find every implementation of each. A survey that sweeps many files can go to a read-only subagent. Give it this list and the paths, tell it what you have already found, and ask for `file:line` evidence.
 
-- List rows: container, dividers, padding, column layout, how the name links, amount alignment and tabular numerals, how a row collapses on phones
-- Filter and search bars: submit or live filtering, where Clear sits and what it says, how archived items are shown, month or period pickers
-- Editing: inline cell editor, drawer or dialog, disclosure, inline toggle, dedicated page. Map each action (rename, set field, add record, add rule) to the pattern used for it.
+- List rows: container, dividers, padding, column layout, how the name links, numeric or currency alignment and tabular numerals, how a row collapses on phones
+- Filter and search bars: submit or live filtering, where Clear sits and what it says, how hidden or archived items are shown, date or period pickers
+- Editing: inline cell editor, drawer or dialog, disclosure, inline toggle, dedicated page. Map each action (for example rename, set a field, add a record) to the pattern used for it.
 - Destructive flows: confirm or not, which button variant, whether it explains what happens
 - Feedback after saving: a banner after a redirect, an inline status, a toast, or nothing visible
 - Empty, no-results and loading states: heading level, alignment, container, whether there is an action
@@ -74,11 +74,11 @@ Follow the target repository's issue conventions. With no conventions, use these
 - Put tasks that fit an existing epic under that epic, and list the epics you ruled out.
 - Each task needs its scope, the files involved, acceptance criteria, and the stories to add or update.
 
-Write drafts to a file. File them only when the user says to.
+Put drafts in the reply or in a scratch or temp directory outside the audited repository's tracked files. File them only when the user says to.
 
 ## Avoid
 
 - Proposing an extraction for something used once or twice, or for things that look alike but have different purposes.
 - Reporting a value as untokenised when the doc deliberately leaves it local (for example a one-off chart dimension).
 - Restating the doc's rules without evidence that code breaks them.
-- Editing code, tokens or docs during the audit.
+- Editing code, tokens or docs, or writing any file into the audited repository, during the audit.
