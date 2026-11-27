@@ -74,7 +74,7 @@ Follow the target repository's issue conventions. With no conventions, use these
 - Put tasks that fit an existing epic under that epic, and list the epics you ruled out.
 - Each task needs its scope, the files involved, acceptance criteria, and the stories to add or update.
 
-Put drafts in the reply or in a scratch or temp directory outside the audited repository's tracked files. File them only when the user says to.
+Put drafts in the reply or in a scratch or temp directory outside the audited repository. File them only when the user says to.
 
 ## Avoid
 
